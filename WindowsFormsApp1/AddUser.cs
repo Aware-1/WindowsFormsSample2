@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -101,41 +102,70 @@ namespace WindowsFormsApp1
         //    Close();
         //}
 
-        private void NameBox_TextChanged(object sender, System.EventArgs e)
-        {
 
+
+        private void AddBtn_Click(object sender, EventArgs e)
+        {
+            // گرفتن مقادیر ورودی از کنترل‌ها
+            string userName = NameBox.Text;
+            DateTime birthDate = dateTimePicker.Value;
+            bool isMarried = marriageBox.Checked;
+            string cityName = cityComboBox.SelectedItem != null ? cityComboBox.SelectedItem.ToString() : "";
+
+            // یافتن ID شهر انتخابی
+            int cityId = GetCityIdByName(cityName);
+            if (cityId == -1)
+            {
+                MessageBox.Show("City not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // افزودن کاربر به دیتابیس
+            AddUserToDatabase(userName, birthDate, isMarried, cityId);
+
+            // به روزرسانی DataGridView بعد از افزودن کاربر
+            RefreshUserGrid();
         }
 
-        private void cityComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        private int GetCityIdByName(string cityName)
         {
-            List<string> cityNames = new List<string>();
+            int cityId = -1;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT Name FROM Cities";
+                string query = "SELECT Id FROM Cities WHERE Name = @CityName";
                 SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@CityName", cityName);
 
                 connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        cityNames.Add(reader["Name"].ToString());
-                    }
+                    cityId = (int)reader["Id"];
                 }
+                reader.Close();
             }
-            cityComboBox.Items.Clear();
-            cityComboBox.Items.AddRange(cityNames.ToArray());
+
+            return cityId;
         }
 
-        private void dateTimePicker_ValueChanged(object sender, System.EventArgs e)
+        private void AddUserToDatabase(string name, DateTime birthDate, bool marriage, int cityId)
         {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "INSERT INTO Users (Name, BirthDate, marriage, CityId) VALUES (@Name, @BirthDate, @marriage, @CityId)";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@BirthDate", birthDate);
+                command.Parameters.AddWithValue("@marriage", marriage);
+                command.Parameters.AddWithValue("@CityId", cityId);
 
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+
+            MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void marriageBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-
-        }
     }
 }

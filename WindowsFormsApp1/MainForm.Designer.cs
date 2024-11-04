@@ -40,9 +40,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.SearchBtn1 = new System.Windows.Forms.Button();
-            this.provinceComboBox = new System.Windows.Forms.ComboBox();
             this.CityBox2 = new System.Windows.Forms.TextBox();
-            this.ProvincLbl = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Strip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -127,6 +125,7 @@
             this.SearchBtn.TabIndex = 9;
             this.SearchBtn.Text = "جستجو";
             this.SearchBtn.UseVisualStyleBackColor = true;
+            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click);
             // 
             // cityComboBox
             // 
@@ -148,9 +147,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.SearchBtn1);
-            this.tabPage2.Controls.Add(this.provinceComboBox);
             this.tabPage2.Controls.Add(this.CityBox2);
-            this.tabPage2.Controls.Add(this.ProvincLbl);
             this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.dataGridView2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -169,14 +166,7 @@
             this.SearchBtn1.TabIndex = 10;
             this.SearchBtn1.Text = "جستجو";
             this.SearchBtn1.UseVisualStyleBackColor = true;
-            // 
-            // provinceComboBox
-            // 
-            this.provinceComboBox.FormattingEnabled = true;
-            this.provinceComboBox.Location = new System.Drawing.Point(16, 12);
-            this.provinceComboBox.Name = "provinceComboBox";
-            this.provinceComboBox.Size = new System.Drawing.Size(121, 21);
-            this.provinceComboBox.TabIndex = 4;
+            this.SearchBtn1.Click += new System.EventHandler(this.SearchBtn1_Click);
             // 
             // CityBox2
             // 
@@ -184,15 +174,6 @@
             this.CityBox2.Name = "CityBox2";
             this.CityBox2.Size = new System.Drawing.Size(100, 20);
             this.CityBox2.TabIndex = 3;
-            // 
-            // ProvincLbl
-            // 
-            this.ProvincLbl.AutoSize = true;
-            this.ProvincLbl.Location = new System.Drawing.Point(143, 15);
-            this.ProvincLbl.Name = "ProvincLbl";
-            this.ProvincLbl.Size = new System.Drawing.Size(34, 13);
-            this.ProvincLbl.TabIndex = 2;
-            this.ProvincLbl.Text = "استان";
             // 
             // label4
             // 
@@ -221,7 +202,7 @@
             // Deletetem1
             // 
             this.Deletetem1.Name = "Deletetem1";
-            this.Deletetem1.Size = new System.Drawing.Size(180, 22);
+            this.Deletetem1.Size = new System.Drawing.Size(99, 22);
             this.Deletetem1.Text = "حذف";
             this.Deletetem1.Click += new System.EventHandler(this.Deletetem1_Click);
             // 
@@ -255,9 +236,7 @@
         private System.Windows.Forms.ComboBox cityComboBox;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ComboBox provinceComboBox;
         private System.Windows.Forms.TextBox CityBox2;
-        private System.Windows.Forms.Label ProvincLbl;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button SearchBtn;

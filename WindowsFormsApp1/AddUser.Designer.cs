@@ -45,7 +45,6 @@
             this.cityComboBox.Name = "cityComboBox";
             this.cityComboBox.Size = new System.Drawing.Size(121, 21);
             this.cityComboBox.TabIndex = 17;
-            this.cityComboBox.SelectedIndexChanged += new System.EventHandler(this.cityComboBox_SelectedIndexChanged);
             // 
             // dateTimePicker
             // 
@@ -53,7 +52,6 @@
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.Size = new System.Drawing.Size(121, 20);
             this.dateTimePicker.TabIndex = 10;
-            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // AddBtn
             // 
@@ -63,6 +61,7 @@
             this.AddBtn.TabIndex = 16;
             this.AddBtn.Text = "افزودن";
             this.AddBtn.UseVisualStyleBackColor = true;
+            this.AddBtn.Click += new System.EventHandler(this.AddBtn_Click);
             // 
             // NameBox
             // 
@@ -70,7 +69,6 @@
             this.NameBox.Name = "NameBox";
             this.NameBox.Size = new System.Drawing.Size(118, 20);
             this.NameBox.TabIndex = 11;
-            this.NameBox.TextChanged += new System.EventHandler(this.NameBox_TextChanged);
             // 
             // label3
             // 
@@ -90,7 +88,6 @@
             this.marriageBox.TabIndex = 12;
             this.marriageBox.Text = "تاهل";
             this.marriageBox.UseVisualStyleBackColor = true;
-            this.marriageBox.CheckedChanged += new System.EventHandler(this.marriageBox_CheckedChanged);
             // 
             // label2
             // 
