@@ -93,6 +93,10 @@
       <Project>{797202c1-cbb1-4faa-81cf-c0a7bf2b7cfd}</Project>
       <Name>Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Date\Data.csproj">
+      <Project>{EF3AB7CC-9262-417F-8321-9CF1CBA236BC}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Doamin\Doamin.csproj">
       <Project>{e43eb5b4-6882-4d94-ac59-44a56ea3f47d}</Project>
       <Name>Doamin</Name>

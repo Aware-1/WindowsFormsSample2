@@ -10,6 +10,9 @@ namespace Doamin.Interfaces
     public interface IUserRepository
     {
         void AddUser(User u);
+
         List<User> GetUsers();
+
+        List<User> GetUsers(string searchText = "", string selectedCity = "");
     }
 }

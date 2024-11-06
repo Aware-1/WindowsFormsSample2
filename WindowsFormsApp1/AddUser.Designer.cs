@@ -45,6 +45,7 @@
             this.cityComboBox.Name = "cityComboBox";
             this.cityComboBox.Size = new System.Drawing.Size(121, 21);
             this.cityComboBox.TabIndex = 17;
+            this.cityComboBox.Click += new System.EventHandler(this.cityComboBox_Click_1);
             // 
             // dateTimePicker
             // 

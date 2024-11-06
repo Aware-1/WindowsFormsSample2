@@ -44,9 +44,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Date\Date.csproj">
+    <ProjectReference Include="..\Date\Data.csproj">
       <Project>{ef3ab7cc-9262-417f-8321-9cf1cba236bc}</Project>
-      <Name>Date</Name>
+      <Name>Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
