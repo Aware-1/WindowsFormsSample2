@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using Date.Repositories;
 using Doamin.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace WindowsFormsApp1
 {
@@ -13,10 +14,7 @@ namespace WindowsFormsApp1
         private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
 
         private readonly ICityRepository _cityRepository;
-        public AddUser()
-        {
-            
-        }
+     
         public int userId = 0;
 
         public AddUser(int selectedRowId)
@@ -28,6 +26,9 @@ namespace WindowsFormsApp1
             {
                 //LoadCustomerDetails();
             }
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
+
         }
 
 

@@ -1,9 +1,11 @@
 ﻿using Doamin.Entities;
 using Doamin.Interfaces;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Data;
 
 namespace Date.Repositories
 {
@@ -14,15 +16,20 @@ namespace Date.Repositories
         private IUserRepository _userRepository;
         private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
         SqlConnection connection;
+
+        private readonly ILogger<UserRepository> _logger;
         public UserRepository()
         {
-            //_userRepository = userRepository;
+            //LoggerConfig.ConfigureLogging();
+            //_logger = LoggerConfig.CreateLogger<UserRepository>();
             connection = new SqlConnection(connectionString);
         }
 
 
         public void AddUser(User user)
         {
+            _logger.LogError("start {MethodName}",nameof(AddUser));
+
             if (connection.State != System.Data.ConnectionState.Open)
                 connection.Open();
 

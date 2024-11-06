@@ -122,7 +122,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nameLbl);
             this.Name = "AddUser";
-            this.Text = "AddUser";
+            this.Text = "افزودن کاربر";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

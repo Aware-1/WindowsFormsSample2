@@ -9,12 +9,6 @@ namespace WindowsFormsApp1
 {
     static class Program
     {
-       // Services.AddScoped<ICityRepository, CityRepository>();
-       // Services.AddScoped<IUserRepository, CityRepository>();
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {

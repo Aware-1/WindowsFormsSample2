@@ -7,6 +7,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data;
+using Serilog;
 
 namespace Date.Repositories
 {
@@ -15,8 +17,11 @@ namespace Date.Repositories
         private ICityRepository _cityRepository;
         private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
         SqlConnection connection;
+        LoggerConfig _loggerConfig;
+
         public CityRepository()
         {
+            _loggerConfig = new LoggerConfig();
             connection = new SqlConnection(connectionString);
         }
 
@@ -61,8 +66,8 @@ namespace Date.Repositories
         }
 
         public void AddUserToDatabase(string name, DateTime birthDate, bool marriage, int cityId)
-
         {
+            _loggerConfig.LogError("start");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO Users (Name, BirthDate, marriage, CityId) VALUES (@Name, @BirthDate, @marriage, @CityId)";

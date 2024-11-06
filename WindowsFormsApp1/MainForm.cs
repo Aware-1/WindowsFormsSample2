@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using Data;
 using Date.Repositories;
 using Doamin.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace WindowsFormsApp1
 {
     public partial class MainForm : Form
     {
         private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
-
+        private readonly ILogger<MainForm> _logger;
         private readonly IUserRepository _userRepository;
         private readonly ICityRepository _cityRepository;
 
         public MainForm()
         { 
             InitializeComponent();
-            _userRepository = new UserRepository(); // userRepository;
+            _userRepository = new UserRepository(); 
             _cityRepository = new CityRepository();
             LoadGrid();
             CityGridLoad();
-          
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
         }
 
-       
+
 
 
         //add
@@ -81,10 +84,6 @@ namespace WindowsFormsApp1
             cityComboBox.Items.Clear();
             cityComboBox.Items.AddRange(cityNames.ToArray());
         }
-
-
-
-
         private void Deletetem1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
