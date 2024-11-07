@@ -11,7 +11,7 @@ namespace Data
 {
     public class LoggerConfig
     {
-        private ILogger _logger;
+        public ILogger _logger;
 
         public LoggerConfig()
         {
@@ -19,17 +19,17 @@ namespace Data
             _logger = Log.Logger;
         }
 
-        public void LogError(string error)
+        public void LogError(string error, string name = null)
         {
-            _logger.Error(error);
+            _logger.Error("{Error} {name}", error, name);
         }
-        public void Information(string x)
+        public void Information(string error, string name = null)
         {
-            _logger.Information(x);
+            _logger.Information("{Error} {name}", error, name);
         }
-        public void LogWarning(string x)
+        public void LogWarning(string error, string name = null)
         {
-            _logger.Warning(x);
+            _logger.Warning("{Error} {name}", error, name);
         }
     }
 }

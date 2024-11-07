@@ -13,6 +13,7 @@ namespace Doamin.Interfaces
 
         List<User> GetUsers();
 
-        List<User> GetUsers(string searchText = "", string selectedCity = "");
+        List<User> GetUsers(string searchText = null, string selectedCity = null);
+        void AddUserToDatabase(string name, DateTime birthDate, bool marriage, int cityId);
     }
 }

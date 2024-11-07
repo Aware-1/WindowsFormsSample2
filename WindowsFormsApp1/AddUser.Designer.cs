@@ -40,6 +40,7 @@
             // 
             // cityComboBox
             // 
+            this.cityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cityComboBox.FormattingEnabled = true;
             this.cityComboBox.Location = new System.Drawing.Point(22, 22);
             this.cityComboBox.Name = "cityComboBox";
@@ -121,6 +122,7 @@
             this.Controls.Add(this.marriageBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nameLbl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "AddUser";
             this.Text = "افزودن کاربر";
             this.TopMost = true;

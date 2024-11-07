@@ -14,6 +14,7 @@ namespace WindowsFormsApp1
         private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
 
         private readonly ICityRepository _cityRepository;
+        private readonly IUserRepository _userRepository;
      
         public int userId = 0;
 
@@ -21,13 +22,12 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             _cityRepository = new CityRepository();
+            _userRepository = new UserRepository();
             userId = selectedRowId;
             if (userId != 0)
             {
                 //LoadCustomerDetails();
             }
-            this.MaximumSize = this.Size;
-            this.MinimumSize = this.Size;
 
         }
 
@@ -44,7 +44,7 @@ namespace WindowsFormsApp1
             if (cityId == -1)
             { MessageBox.Show("شهر انتخابی یافت نشد.", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
 
-            _cityRepository.AddUserToDatabase(userName, birthDate, isMarried, cityId);
+            _userRepository.AddUserToDatabase(userName, birthDate, isMarried, cityId);
             this.Close();
             new MainForm().refresh1(); 
         }

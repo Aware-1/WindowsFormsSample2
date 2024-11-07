@@ -101,6 +101,7 @@
             this.کارکنان.Size = new System.Drawing.Size(566, 374);
             this.کارکنان.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.کارکنان.TabIndex = 7;
+            this.کارکنان.Click += new System.EventHandler(this.کارکنان_Click);
             // 
             // tabPage1
             // 
@@ -127,10 +128,10 @@
             this.SearchBtn.TabIndex = 9;
             this.SearchBtn.Text = "جستجو";
             this.SearchBtn.UseVisualStyleBackColor = true;
-            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click);
             // 
             // cityComboBox
             // 
+            this.cityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cityComboBox.FormattingEnabled = true;
             this.cityComboBox.Location = new System.Drawing.Point(259, 15);
             this.cityComboBox.Name = "cityComboBox";
@@ -168,7 +169,6 @@
             this.SearchBtn1.TabIndex = 10;
             this.SearchBtn1.Text = "جستجو";
             this.SearchBtn1.UseVisualStyleBackColor = true;
-            this.SearchBtn1.Click += new System.EventHandler(this.SearchBtn1_Click);
             // 
             // CityBox2
             // 
@@ -215,9 +215,15 @@
             this.ClientSize = new System.Drawing.Size(580, 395);
             this.Controls.Add(this.کارکنان);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "مدیریت کارکنان";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.کارکنان.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

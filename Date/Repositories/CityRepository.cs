@@ -27,6 +27,8 @@ namespace Date.Repositories
 
         public int GetCityIdByName(string cityName)
         {
+            _loggerConfig.LogError("GetCityIdByName :", cityName);
+
             int cityId = -1;
 
             if (connection.State != System.Data.ConnectionState.Open)
@@ -36,8 +38,8 @@ namespace Date.Repositories
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@CityName", cityName);
 
-            if(connection.State != System.Data.ConnectionState.Open)
-            connection.Open();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
             SqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
@@ -51,6 +53,7 @@ namespace Date.Repositories
 
         public string GetCityNameById(int cityId)
         {
+            _loggerConfig.Information("GetCityNameById :", Convert.ToString(cityId));
             string cityName = string.Empty;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -58,31 +61,14 @@ namespace Date.Repositories
                 command.Parameters.AddWithValue("@CityId", cityId);
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
-                { cityName = reader["Name"].ToString(); }
+                if (reader.Read()) cityName = reader["Name"].ToString();
+                
                 reader.Close();
             }
             return cityName;
         }
 
-        public void AddUserToDatabase(string name, DateTime birthDate, bool marriage, int cityId)
-        {
-            _loggerConfig.LogError("start");
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string query = "INSERT INTO Users (Name, BirthDate, marriage, CityId) VALUES (@Name, @BirthDate, @marriage, @CityId)";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Name", name);
-                command.Parameters.AddWithValue("@BirthDate", birthDate);
-                command.Parameters.AddWithValue("@marriage", marriage);
-                command.Parameters.AddWithValue("@CityId", cityId);
 
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-
-
-        }
 
         public List<string> GetCityNames()
 
@@ -130,16 +116,16 @@ namespace Date.Repositories
         public List<City> GetCities(string searchText = "")
         {
             List<City> cities = new List<City>();
-           
-            string query = @" SELECT Id, Name, Province FROM Cities WHERE IsDelete = 0 " 
+
+            string query = @" SELECT Id, Name, Province FROM Cities WHERE IsDelete = 0 "
                + (string.IsNullOrEmpty(searchText) ? "" : $"AND Name LIKE N'%{searchText}%'");
-            
+
             if (connection.State != System.Data.ConnectionState.Open)
                 connection.Open();
 
             SqlCommand command = new SqlCommand(query, connection);
-          
-             SqlDataReader reader = command.ExecuteReader();
+
+            SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 cities.Add(new City

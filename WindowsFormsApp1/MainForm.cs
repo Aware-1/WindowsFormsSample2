@@ -12,7 +12,6 @@ namespace WindowsFormsApp1
     public partial class MainForm : Form
     {
         private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
-        private readonly ILogger<MainForm> _logger;
         private readonly IUserRepository _userRepository;
         private readonly ICityRepository _cityRepository;
 
@@ -21,19 +20,41 @@ namespace WindowsFormsApp1
             InitializeComponent();
             _userRepository = new UserRepository(); 
             _cityRepository = new CityRepository();
+        }
+
+        #region click
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
             LoadGrid();
+        }
+        private void کارکنان_Click(object sender, EventArgs e)
+        {
             CityGridLoad();
-            this.MaximumSize = this.Size;
-            this.MinimumSize = this.Size;
         }
 
 
+        public void refresh1()
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            LoadGrid();
+            //SearchBtn_Click();
+        }
 
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView1.ClearSelection();
+                dataGridView1.Rows[e.RowIndex].Selected = true;
+            }
+        }
+        #endregion
 
         //add
         private void AddBtn_Click(object sender, EventArgs e)
         {
-
             AddUser addUser = new AddUser(0);
             addUser.ShowDialog();
         }
@@ -52,31 +73,13 @@ namespace WindowsFormsApp1
             var users = _userRepository.GetUsers();
             foreach (var user in users)
             {
-                dataGridView1.Rows.Add(user.Id, user.Name, user.City.Name, user.BirthDate.ToString("yyyy-MM-dd"), user.marriage);
+                var marriageStatus = user.marriage ? "متاهل" : "مجرد";
+                dataGridView1.Rows.Add(user.Id, user.Name, user.City.Name, user.BirthDate.ToString("yyyy-MM-dd"), marriageStatus);
             }
 
             dataGridView1.ContextMenuStrip = Strip1;
             dataGridView1.CellMouseDown += new DataGridViewCellMouseEventHandler(dataGridView1_CellMouseDown);
         }
-        #region click
-        public void refresh1()
-        {
-            dataGridView1.Columns.Clear();
-            dataGridView1.Rows.Clear();
-            LoadGrid();
-        }
-
-        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                dataGridView1.ClearSelection();
-                dataGridView1.Rows[e.RowIndex].Selected = true;
-            }
-        }
-        #endregion
-
-
 
         private void cityComboBox_Click(object sender, EventArgs e)
         {
@@ -84,6 +87,7 @@ namespace WindowsFormsApp1
             cityComboBox.Items.Clear();
             cityComboBox.Items.AddRange(cityNames.ToArray());
         }
+        
         private void Deletetem1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -165,7 +169,6 @@ namespace WindowsFormsApp1
                 dataGridView2.Rows.Add(city.Id, city.Name, city.Province);
             }
         }
-
 
     }
 }
