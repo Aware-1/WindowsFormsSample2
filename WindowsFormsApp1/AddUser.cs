@@ -35,7 +35,7 @@ namespace WindowsFormsApp1
             bool isMarried = marriageBox.Checked;
             string cityName = cityComboBox.SelectedItem != null ? cityComboBox.SelectedItem.ToString() : "";
             
-            if (string.IsNullOrEmpty(userName))
+            if (string.IsNullOrEmpty(userName.Trim()))
             {  MessageBox.Show("لطفاً نام را وارد کنید.", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error); return;  }
 
             var cityId = _cityRepository.GetCityIdByName(cityName);
