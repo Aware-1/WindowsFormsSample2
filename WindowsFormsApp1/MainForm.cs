@@ -14,6 +14,7 @@ namespace WindowsFormsApp1
     {
         private readonly IUserRepository _userRepository;
         private readonly ICityRepository _cityRepository;
+        private readonly IAdminRepository _adminRepository;
         LoggerConfig _loggerConfig;
 
         public MainForm()
@@ -21,6 +22,7 @@ namespace WindowsFormsApp1
             InitializeComponent();
             _loggerConfig = new LoggerConfig();
             _userRepository = new UserRepository();
+            _adminRepository = new AdminRepository();
             _cityRepository = new CityRepository();
 
 
@@ -29,6 +31,10 @@ namespace WindowsFormsApp1
             _loggerConfig.Information($"Form loaded successfully with IP: {ipAddress} and ComputerName: {computerName}");
 
         }
+
+
+
+
 
         #region click
         private string GetLocalIPAddress()
@@ -50,6 +56,16 @@ namespace WindowsFormsApp1
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //Hide();
+
+            //Login login = new Login();
+            //if (login.ShowDialog() == DialogResult.OK)
+            //    Show();
+
+            //else
+            //    Application.Exit();
+
+            LoadAdminGrid();
             LoadGrid();
         }
         private void کارکنان_Click(object sender, EventArgs e)
@@ -60,9 +76,7 @@ namespace WindowsFormsApp1
 
         public void Refresh()
         {
-            //dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
-            // LoadGrid();
             SearchBtn_Click_1(null, null);
         }
 
@@ -74,9 +88,58 @@ namespace WindowsFormsApp1
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
+        private void dataGridView3_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView3.ClearSelection();
+                dataGridView3.Rows[e.RowIndex].Selected = true;
+            }
+        }
         #endregion
 
-        //add
+        #region admin
+
+        public void RefreshAdmin()
+        {
+            dataGridView3.Rows.Clear();
+            LoadAdminGrid();
+        }
+        private void limitingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int selectedUserId = Convert.ToInt32(dataGridView3.SelectedRows[0].Cells["Id"].Value);
+
+            EditAdmin editAdmin = new EditAdmin(selectedUserId);
+            editAdmin.ShowDialog();
+            RefreshAdmin();
+
+        }
+
+        private void LoadAdminGrid()
+        {
+            dataGridView3.Columns.Add("Id", "شناسه");
+            dataGridView3.Columns.Add("UserName", "نام");
+            dataGridView3.Columns.Add("IsLimit", "نام");
+            var users = _adminRepository.GetUsers();
+            foreach (var admin in users)
+            {
+                var limitStatus = admin.IsLimit ? "محدود" : "نا محدود";
+                dataGridView3.Rows.Add(admin.Id, admin.UserName, limitStatus);
+            }
+
+            dataGridView3.ContextMenuStrip = Strip2;
+            dataGridView3.CellMouseDown += new DataGridViewCellMouseEventHandler(dataGridView3_CellMouseDown);
+
+        }
+
+
+        #endregion
+
+
+
+
+        #region employ
+
         private void AddBtn_Click(object sender, EventArgs e)
         {
             AddUser addUser = new AddUser(0);
@@ -139,6 +202,14 @@ namespace WindowsFormsApp1
             { MessageBox.Show("لطفاً یک کاربر برای حذف انتخاب کنید."); }
         }
 
+        #endregion
+
+
+        #region City
+
+        //add
+
+
         private void SearchBtn_Click_1(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
@@ -186,5 +257,9 @@ namespace WindowsFormsApp1
                 dataGridView2.Rows.Add(city.Id, city.Name, city.Province);
             }
         }
+
+        #endregion
+
+
     }
 }

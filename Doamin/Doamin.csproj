@@ -198,8 +198,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Admin.cs" />
     <Compile Include="Entities\City.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Interfaces\IAdminRepository.cs" />
     <Compile Include="Interfaces\ICityRepository.cs" />
     <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
