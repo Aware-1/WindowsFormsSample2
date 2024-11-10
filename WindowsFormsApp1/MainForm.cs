@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 using Data;
 using Date.Repositories;
@@ -11,18 +12,41 @@ namespace WindowsFormsApp1
 {
     public partial class MainForm : Form
     {
-        private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
         private readonly IUserRepository _userRepository;
         private readonly ICityRepository _cityRepository;
+        LoggerConfig _loggerConfig;
 
         public MainForm()
-        { 
+        {
             InitializeComponent();
-            _userRepository = new UserRepository(); 
+            _loggerConfig = new LoggerConfig();
+            _userRepository = new UserRepository();
             _cityRepository = new CityRepository();
+
+
+            string ipAddress = GetLocalIPAddress();
+            string computerName = Environment.MachineName;
+            _loggerConfig.Information($"Form loaded successfully with IP: {ipAddress} and ComputerName: {computerName}");
+
         }
 
         #region click
+        private string GetLocalIPAddress()
+        {
+            var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (var networkInterface in networkInterfaces)
+            {
+                var properties = networkInterface.GetIPProperties();
+                var addresses = properties.UnicastAddresses;
+                foreach (var address in addresses)
+                {
+                    if (address.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    { return address.Address.ToString(); }
+                }
+            }
+            throw new Exception("Local IP Address Not Found!");
+        }
+
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -34,12 +58,12 @@ namespace WindowsFormsApp1
         }
 
 
-        public void refresh1()
+        public void Refresh()
         {
-            dataGridView1.Columns.Clear();
+            //dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
-            LoadGrid();
-            //SearchBtn_Click();
+            // LoadGrid();
+            SearchBtn_Click_1(null, null);
         }
 
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -57,6 +81,7 @@ namespace WindowsFormsApp1
         {
             AddUser addUser = new AddUser(0);
             addUser.ShowDialog();
+            SearchBtn_Click_1(null, null);
         }
         //load
         private void LoadGrid()
@@ -67,7 +92,7 @@ namespace WindowsFormsApp1
             dataGridView1.Columns.Add("CityName", "شهر");
             dataGridView1.Columns.Add("BirthDate", "تاریخ تولد");
             dataGridView1.Columns.Add("marriage", "تاهل");
- 
+
             dataGridView1.Rows.Clear();
 
             var users = _userRepository.GetUsers();
@@ -87,29 +112,23 @@ namespace WindowsFormsApp1
             cityComboBox.Items.Clear();
             cityComboBox.Items.AddRange(cityNames.ToArray());
         }
-        
+
         private void Deletetem1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int selectedUserId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
-
                 DialogResult result = MessageBox.Show("آیا مطمئن هستید که می‌خواهید این آیتم را حذف کنید؟", "تایید حذف", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
                 if (result == DialogResult.Yes)
                 {
-                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    try
                     {
-                        string query = "UPDATE Users SET IsDelete = 1 WHERE Id = @UserId";
-                        SqlCommand command = new SqlCommand(query, connection);
-                        command.Parameters.AddWithValue("@UserId", selectedUserId);
-
-                        connection.Open();
-                        command.ExecuteNonQuery();
+                        _userRepository.DeleteUser(selectedUserId);
+                        MessageBox.Show("آیتم حذف شد.", "حذف", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Refresh();
                     }
-
-                    MessageBox.Show("آیتم حذف شد.", "حذف", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    refresh1();
+                    catch (Exception ex)
+                    { MessageBox.Show($"خطا در حذف آیتم: {ex.Message}", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
                 else
                 {
@@ -117,12 +136,10 @@ namespace WindowsFormsApp1
                 }
             }
             else
-            {
-                MessageBox.Show("لطفاً یک کاربر برای حذف انتخاب کنید.");
-            }
+            { MessageBox.Show("لطفاً یک کاربر برای حذف انتخاب کنید."); }
         }
 
-        private void SearchBtn_Click(object sender, EventArgs e)
+        private void SearchBtn_Click_1(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
 
@@ -169,6 +186,5 @@ namespace WindowsFormsApp1
                 dataGridView2.Rows.Add(city.Id, city.Name, city.Province);
             }
         }
-
     }
 }

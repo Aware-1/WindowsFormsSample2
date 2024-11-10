@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -11,11 +10,10 @@ namespace WindowsFormsApp1
 {
     public partial class AddUser : Form
     {
-        private string connectionString = "Data Source=.;Initial Catalog=ClientSample;Integrated Security=True;MultipleActiveResultSets=true";
 
         private readonly ICityRepository _cityRepository;
         private readonly IUserRepository _userRepository;
-     
+
         public int userId = 0;
 
         public AddUser(int selectedRowId)
@@ -24,10 +22,7 @@ namespace WindowsFormsApp1
             _cityRepository = new CityRepository();
             _userRepository = new UserRepository();
             userId = selectedRowId;
-            if (userId != 0)
-            {
-                //LoadCustomerDetails();
-            }
+
 
         }
 
@@ -39,6 +34,9 @@ namespace WindowsFormsApp1
             DateTime birthDate = dateTimePicker.Value;
             bool isMarried = marriageBox.Checked;
             string cityName = cityComboBox.SelectedItem != null ? cityComboBox.SelectedItem.ToString() : "";
+            
+            if (string.IsNullOrEmpty(userName))
+            {  MessageBox.Show("لطفاً نام را وارد کنید.", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error); return;  }
 
             var cityId = _cityRepository.GetCityIdByName(cityName);
             if (cityId == -1)
@@ -46,17 +44,16 @@ namespace WindowsFormsApp1
 
             _userRepository.AddUserToDatabase(userName, birthDate, isMarried, cityId);
             this.Close();
-            new MainForm().refresh1(); 
         }
 
-        
 
-       
+
+
 
         private void cityComboBox_Click_1(object sender, EventArgs e)
         {
             List<string> cityNames = _cityRepository.GetCityNames();
-            cityComboBox.Items.Clear(); 
+            cityComboBox.Items.Clear();
             cityComboBox.Items.AddRange(cityNames.ToArray());
         }
     }

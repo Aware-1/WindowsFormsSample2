@@ -91,6 +91,8 @@ namespace Date.Repositories
 
         public List<City> GetCities()
         {
+            _loggerConfig.LogError("GetCities", "");
+
             List<City> cities = new List<City>();
             string query = @" SELECT Id, Name, Province FROM Cities WHERE IsDelete = 0";
 
@@ -115,6 +117,8 @@ namespace Date.Repositories
 
         public List<City> GetCities(string searchText = "")
         {
+            _loggerConfig.LogError("CitySearch :", searchText);
+
             List<City> cities = new List<City>();
 
             string query = @" SELECT Id, Name, Province FROM Cities WHERE IsDelete = 0 "

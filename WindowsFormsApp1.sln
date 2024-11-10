@@ -5,11 +5,9 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{CB84155A-77F3-4E7E-A428-BA602E987502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{797202C1-CBB1-4FAA-81CF-C0A7BF2B7CFD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doamin", "Doamin\Doamin.csproj", "{E43EB5B4-6882-4D94-AC59-44A56EA3F47D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Date\Data.csproj", "{EF3AB7CC-9262-417F-8321-9CF1CBA236BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Date\Application.csproj", "{EF3AB7CC-9262-417F-8321-9CF1CBA236BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{CB84155A-77F3-4E7E-A428-BA602E987502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB84155A-77F3-4E7E-A428-BA602E987502}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB84155A-77F3-4E7E-A428-BA602E987502}.Release|Any CPU.Build.0 = Release|Any CPU
-		{797202C1-CBB1-4FAA-81CF-C0A7BF2B7CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{797202C1-CBB1-4FAA-81CF-C0A7BF2B7CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{797202C1-CBB1-4FAA-81CF-C0A7BF2B7CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{797202C1-CBB1-4FAA-81CF-C0A7BF2B7CFD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E43EB5B4-6882-4D94-AC59-44A56EA3F47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E43EB5B4-6882-4D94-AC59-44A56EA3F47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E43EB5B4-6882-4D94-AC59-44A56EA3F47D}.Release|Any CPU.ActiveCfg = Release|Any CPU

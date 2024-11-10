@@ -58,8 +58,17 @@ namespace Date.Repositories
              JOIN Cities ON Users.CityId = Cities.Id
              WHERE Users.IsDelete = 0";
 
-            if (connection.State != System.Data.ConnectionState.Open)
-                connection.Open();
+            try
+            {
+                if (connection.State != System.Data.ConnectionState.Open)
+                    connection.Open();
+
+            }
+            catch (Exception ex)
+            {
+                _loggerConfig.LogError($"connection faliled: {ex.Message}");
+
+            }
 
             SqlCommand command = new SqlCommand(query, connection);
             SqlDataReader reader = command.ExecuteReader();
@@ -86,7 +95,17 @@ namespace Date.Repositories
             return users;
         }
 
-
+        public void DeleteUser(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE Users SET IsDelete = 1 WHERE Id = @UserId";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@UserId", userId);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
         public List<User> GetUsers(string searchText = null, string selectedCity = null)
         {
             _loggerConfig.LogWarning("Serach:", $"Name {searchText} city: {selectedCity}");
@@ -99,7 +118,7 @@ namespace Date.Repositories
             WHERE Users.IsDelete = 0 " +
             (string.IsNullOrEmpty(searchText) ? "" : $"AND Users.Name LIKE N'%{searchText}%' ") +
             (string.IsNullOrEmpty(selectedCity) ? "" : $"AND Cities.Name LIKE N'%{selectedCity}%' ");
-          
+
             if (connection.State != System.Data.ConnectionState.Open)
                 connection.Open();
 

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.Button SearchBtn1;
             this.NameBox = new System.Windows.Forms.TextBox();
             this.nameLbl = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,12 +40,12 @@
             this.cityComboBox = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.SearchBtn1 = new System.Windows.Forms.Button();
             this.CityBox2 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Strip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Deletetem1 = new System.Windows.Forms.ToolStripMenuItem();
+            SearchBtn1 = new System.Windows.Forms.Button();
             this.کارکنان.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -128,6 +129,7 @@
             this.SearchBtn.TabIndex = 9;
             this.SearchBtn.Text = "جستجو";
             this.SearchBtn.UseVisualStyleBackColor = true;
+            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click_1);
             // 
             // cityComboBox
             // 
@@ -149,7 +151,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.SearchBtn1);
+            this.tabPage2.Controls.Add(SearchBtn1);
             this.tabPage2.Controls.Add(this.CityBox2);
             this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.dataGridView2);
@@ -163,12 +165,17 @@
             // 
             // SearchBtn1
             // 
-            this.SearchBtn1.Location = new System.Drawing.Point(359, 12);
-            this.SearchBtn1.Name = "SearchBtn1";
-            this.SearchBtn1.Size = new System.Drawing.Size(51, 23);
-            this.SearchBtn1.TabIndex = 10;
-            this.SearchBtn1.Text = "جستجو";
-            this.SearchBtn1.UseVisualStyleBackColor = true;
+            SearchBtn1.AllowDrop = true;
+            SearchBtn1.AutoEllipsis = true;
+            SearchBtn1.Location = new System.Drawing.Point(359, 12);
+            SearchBtn1.Name = "SearchBtn1";
+            SearchBtn1.Size = new System.Drawing.Size(51, 23);
+            SearchBtn1.TabIndex = 10;
+            SearchBtn1.TabStop = false;
+            SearchBtn1.Text = "جستجو";
+            SearchBtn1.UseVisualStyleBackColor = true;
+            SearchBtn1.UseWaitCursor = true;
+            SearchBtn1.Click += new System.EventHandler(this.SearchBtn1_Click);
             // 
             // CityBox2
             // 
@@ -250,7 +257,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button SearchBtn;
-        private System.Windows.Forms.Button SearchBtn1;
         private System.Windows.Forms.ContextMenuStrip Strip1;
         private System.Windows.Forms.ToolStripMenuItem Deletetem1;
     }
