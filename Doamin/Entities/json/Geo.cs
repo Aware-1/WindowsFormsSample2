@@ -10,6 +10,10 @@ namespace Doamin.Entities
     {
         public string Lat { get; set; }
         public string Lng { get; set; }
+        public override string ToString()
+        {
+            return "نقشه";
+        }
     }
 
 }

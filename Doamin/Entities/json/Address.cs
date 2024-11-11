@@ -13,6 +13,10 @@ namespace Doamin.Entities
         public string City { get; set; }
         public string Zipcode { get; set; }
         public Geo Geo { get; set; }
+        public override string ToString()
+        {
+            return Street;
+        }
     }
 
 }

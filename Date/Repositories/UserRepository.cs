@@ -7,6 +7,8 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Data;
 using PersianDate;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace Date.Repositories
 {
@@ -142,6 +144,14 @@ namespace Date.Repositories
             return users;
         }
 
+        public async Task<List<Client>> LoadJson()
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
+            response.EnsureSuccessStatusCode(); string json = await response.Content.ReadAsStringAsync();
+            List<Client> users = JsonConvert.DeserializeObject<List<Client>>(json);
+            return users;
+        }
 
         public void AddUserToDatabase(string name, DateTime birthDate, bool marriage, int cityId)
         {

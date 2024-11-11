@@ -10,7 +10,7 @@ namespace Doamin.Interfaces
     public interface IUserRepository
     {
         void AddUser(User u);
-
+        Task<List<Client>> LoadJson();
         List<User> GetUsers();
 
         List<User> GetUsers(string searchText = null, string selectedCity = null);

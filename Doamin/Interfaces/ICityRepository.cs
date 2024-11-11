@@ -12,7 +12,7 @@ namespace Doamin.Interfaces
         int GetCityIdByName(string cityName);
        
         List<string> GetCityNames();
-
+      
         string GetCityNameById(int cityId);
 
         List<City> GetCities();

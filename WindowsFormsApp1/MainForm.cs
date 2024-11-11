@@ -378,31 +378,14 @@ namespace WindowsFormsApp1
         #region json 
         private async void LoadJson()
         {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
-            response.EnsureSuccessStatusCode();
-            string json = await response.Content.ReadAsStringAsync();
-            dataGridView4.Columns.Clear();
 
-            dataGridView4.Columns.Add("id", "شناسه");
-            dataGridView4.Columns.Add("name", "نام");
-            dataGridView4.Columns.Add("email", "ایمیل");
+            List<Client> users = await _userRepository.LoadJson();
 
-            List <User> users = JsonConvert.DeserializeObject<List<User>>(json);
-                dataGridView4.DataSource = users;
-
-
+            dataGridView4.DataSource = users;
 
             dataGridView4.ContextMenuStrip = Strip3;
             dataGridView4.CellMouseDown += new DataGridViewCellMouseEventHandler(dataGridView1_CellMouseDown);
-
         }
-
-
-
-
-
-
 
 
         #endregion

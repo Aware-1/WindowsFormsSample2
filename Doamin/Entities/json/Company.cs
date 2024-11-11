@@ -11,6 +11,10 @@ namespace Doamin.Entities
         public string Name { get; set; }
         public string CatchPhrase { get; set; }
         public string Bs { get; set; }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
 }
