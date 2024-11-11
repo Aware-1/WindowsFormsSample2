@@ -13,12 +13,14 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Date.Service;
 
 namespace WindowsFormsApp1
 {
     public partial class MainForm : Form
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly ICityRepository _cityRepository;
         private readonly IAdminRepository _adminRepository;
         LoggerConfig _loggerConfig;
@@ -31,6 +33,7 @@ namespace WindowsFormsApp1
             _userRepository = new UserRepository();
             _adminRepository = new AdminRepository();
             _cityRepository = new CityRepository();
+            _userService = new UserService();
 
 
             string ipAddress = GetLocalIPAddress();
@@ -379,7 +382,7 @@ namespace WindowsFormsApp1
         private async void LoadJson()
         {
 
-            List<Client> users = await _userRepository.LoadJson();
+            List<Client> users = await _userService.LoadJson();
 
             dataGridView4.DataSource = users;
 

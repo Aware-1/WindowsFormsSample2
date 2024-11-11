@@ -144,15 +144,6 @@ namespace Date.Repositories
             return users;
         }
 
-        public async Task<List<Client>> LoadJson()
-        {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
-            response.EnsureSuccessStatusCode(); string json = await response.Content.ReadAsStringAsync();
-            List<Client> users = JsonConvert.DeserializeObject<List<Client>>(json);
-            return users;
-        }
-
         public void AddUserToDatabase(string name, DateTime birthDate, bool marriage, int cityId)
         {
             _loggerConfig.LogWarning("add user:", name);
