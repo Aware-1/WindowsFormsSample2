@@ -5,8 +5,14 @@ using System.Net.NetworkInformation;
 using System.Windows.Forms;
 using Data;
 using Date.Repositories;
+using Doamin.Entities;
 using Doamin.Interfaces;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
@@ -16,6 +22,7 @@ namespace WindowsFormsApp1
         private readonly ICityRepository _cityRepository;
         private readonly IAdminRepository _adminRepository;
         LoggerConfig _loggerConfig;
+        private Admin _currentAdmin;
 
         public MainForm()
         {
@@ -56,17 +63,21 @@ namespace WindowsFormsApp1
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //Hide();
+            Hide();
 
-            //Login login = new Login();
-            //if (login.ShowDialog() == DialogResult.OK)
-            //    Show();
-
-            //else
-            //    Application.Exit();
-
+            Login login = new Login();
+            if (login.ShowDialog() == DialogResult.OK)
+            {
+                Show();
+                _currentAdmin = (Admin)login.Tag;
+                AccessCurentAdmin();
+            }
+            else
+                Application.Exit();
+            LoadJson();
             LoadAdminGrid();
             LoadGrid();
+            
         }
         private void کارکنان_Click(object sender, EventArgs e)
         {
@@ -114,12 +125,25 @@ namespace WindowsFormsApp1
             RefreshAdmin();
 
         }
-
+        private void AccessCurentAdmin()
+        {
+            if (_currentAdmin.IsLimit)
+            {
+                toolStripMenuItem1.Visible = false;
+                limitingToolStripMenuItem.Visible = false;
+            }
+            else
+            {
+                btnReport.Visible = false;
+                SearchBtnAdmin.Visible = false;
+                textBox1.Visible = false;
+            }
+        }
         private void LoadAdminGrid()
         {
             dataGridView3.Columns.Add("Id", "شناسه");
             dataGridView3.Columns.Add("UserName", "نام");
-            dataGridView3.Columns.Add("IsLimit", "نام");
+            dataGridView3.Columns.Add("IsLimit", "محدودیت");
             var users = _adminRepository.GetUsers();
             foreach (var admin in users)
             {
@@ -131,9 +155,96 @@ namespace WindowsFormsApp1
             dataGridView3.CellMouseDown += new DataGridViewCellMouseEventHandler(dataGridView3_CellMouseDown);
 
         }
+        private void SearchBtnAdmin_Click(object sender, EventArgs e)
+        {
+            dataGridView3.Rows.Clear();
+
+            string searchText = textBox1.Text;
+
+            var Admins = _adminRepository.GetAdmins(searchText);
+            foreach (var admin in Admins)
+            {
+                dataGridView3.Rows.Add(admin.Id, admin.UserName, admin.IsLimit);
+            }
+        }
 
 
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (dataGridView3.SelectedRows.Count > 0)
+            {
+                int selectedUserId = Convert.ToInt32(dataGridView3.SelectedRows[0].Cells["Id"].Value);
+                DialogResult result = MessageBox.Show("آیا مطمئن هستید که می‌خواهید این آیتم را حذف کنید؟", "تایید حذف", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        _adminRepository.DeleteAdmin(selectedUserId);
+                        MessageBox.Show("آیتم حذف شد.", "حذف", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshAdmin();
+                    }
+                    catch (Exception ex)
+                    { MessageBox.Show($"خطا در حذف آیتم: {ex.Message}", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                else
+                {
+                    MessageBox.Show("حذف لغو شد.", "لغو حذف", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            { MessageBox.Show("لطفاً یک کاربر برای حذف انتخاب کنید."); }
+        }
+
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PDF Files|*.pdf";
+            saveFileDialog.Title = "Save as PDF";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                GeneratePdfFromDataGridView(saveFileDialog.FileName);
+            }
+        }
+        private void GeneratePdfFromDataGridView(string filePath)
+        {
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = "DataGridView Export";
+
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Arial", 12);
+
+            int yPoint = 0;
+
+            // Write header
+            for (int i = 0; i < dataGridView3.Columns.Count; i++)
+            {
+                gfx.DrawString(dataGridView3.Columns[i].HeaderText, font, XBrushes.Black,
+                    new XRect(40 + i * 100, yPoint, page.Width.Point, page.Height.Point), XStringFormats.TopLeft);
+            }
+            yPoint += 40;
+
+            // Write rows
+            for (int i = 0; i < dataGridView3.Rows.Count; i++)
+            {
+                for (int j = 0; j < dataGridView3.Columns.Count; j++)
+                {
+                    gfx.DrawString(dataGridView1.Rows[i].Cells[j].Value?.ToString(), font, XBrushes.Black,
+                        new XRect(40 + j * 100, yPoint, page.Width.Point, page.Height.Point), XStringFormats.TopLeft);
+                }
+                yPoint += 40;
+            }
+
+            document.Save(filePath);
+            MessageBox.Show("PDF saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         #endregion
+
+
+
+
 
 
 
@@ -258,8 +369,52 @@ namespace WindowsFormsApp1
             }
         }
 
+
+
         #endregion
 
 
+
+        #region json 
+        private async void LoadJson()
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
+            response.EnsureSuccessStatusCode();
+            string json = await response.Content.ReadAsStringAsync();
+            dataGridView4.Columns.Clear();
+
+            dataGridView4.Columns.Add("id", "شناسه");
+            dataGridView4.Columns.Add("name", "نام");
+            dataGridView4.Columns.Add("email", "ایمیل");
+
+            List <User> users = JsonConvert.DeserializeObject<List<User>>(json);
+                dataGridView4.DataSource = users;
+
+
+
+            dataGridView4.ContextMenuStrip = Strip3;
+            dataGridView4.CellMouseDown += new DataGridViewCellMouseEventHandler(dataGridView1_CellMouseDown);
+
+        }
+
+
+
+
+
+
+
+
+        #endregion
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            Client selectedUser = dataGridView4.CurrentRow.DataBoundItem as Client;
+            //int selectedUserId = Convert.ToInt32(dataGridView4.SelectedRows[0].Cells["Id"].Value);
+
+            DetailsJson userDetailsForm = new DetailsJson(selectedUser);
+            userDetailsForm.ShowDialog();
+
+        }
     }
 }

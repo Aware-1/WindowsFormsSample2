@@ -38,7 +38,7 @@ namespace WindowsFormsApp1
 
         private void LoadAdminDetails()
         {
-            Admin admin = _adminRepository.GetAdminDetails(rowId);
+            Admin admin = _adminRepository.GetAdmin(rowId);
             if (admin != null)
             {
                 LblUser.Text = admin.UserName;

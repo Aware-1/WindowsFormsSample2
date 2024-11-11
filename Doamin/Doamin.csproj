@@ -198,8 +198,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\json\Address.cs" />
     <Compile Include="Entities\Admin.cs" />
     <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\json\Client.cs" />
+    <Compile Include="Entities\json\Company.cs" />
+    <Compile Include="Entities\json\Geo.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Interfaces\IAdminRepository.cs" />
     <Compile Include="Interfaces\ICityRepository.cs" />

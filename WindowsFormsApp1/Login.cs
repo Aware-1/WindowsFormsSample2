@@ -1,4 +1,5 @@
 ﻿using Date.Repositories;
+using Doamin.Entities;
 using Doamin.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,17 +28,17 @@ namespace WindowsFormsApp1
 
         private void LoginBtn_Click(object sender, EventArgs e)
         {
-            string  Pass= PassTxtBox.Text.Trim();
+            string pass = PassTxtBox.Text.Trim();
             string userName = UserTxtBox.Text.Trim();
 
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(Pass)) 
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(pass)) 
             { MessageBox.Show("لطفاً نام کاربری و رمز عبور را وارد کنید.", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            bool isValidUser = _adminRepository.ValidateUser(userName, Pass);
-            if (isValidUser)
+            Admin admin = _adminRepository.GetAdmin(userName, pass);
+            if (admin!=null)
             {
                 DialogResult = DialogResult.OK;
+                Tag = admin;
                 Hide();
-               
             }
             else { MessageBox.Show("نام کاربری یا رمز عبور نادرست است.", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }

@@ -38,7 +38,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnReport = new System.Windows.Forms.Button();
-            this.btnSearchAdmin = new System.Windows.Forms.Button();
+            this.SearchBtnAdmin = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.SearchBtn = new System.Windows.Forms.Button();
@@ -53,6 +53,9 @@
             this.Strip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.limitingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Strip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
             SearchBtn1 = new System.Windows.Forms.Button();
             this.کارکنان.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -63,6 +66,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.Strip1.SuspendLayout();
             this.Strip2.SuspendLayout();
+            this.Strip3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.SuspendLayout();
             // 
             // SearchBtn1
@@ -132,9 +137,10 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.dataGridView4);
             this.tabPage3.Controls.Add(this.textBox1);
             this.tabPage3.Controls.Add(this.btnReport);
-            this.tabPage3.Controls.Add(this.btnSearchAdmin);
+            this.tabPage3.Controls.Add(this.SearchBtnAdmin);
             this.tabPage3.Controls.Add(this.dataGridView3);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -158,22 +164,24 @@
             this.btnReport.TabIndex = 2;
             this.btnReport.Text = "گزارش ";
             this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
-            // btnSearchAdmin
+            // SearchBtnAdmin
             // 
-            this.btnSearchAdmin.Location = new System.Drawing.Point(14, 49);
-            this.btnSearchAdmin.Name = "btnSearchAdmin";
-            this.btnSearchAdmin.Size = new System.Drawing.Size(173, 23);
-            this.btnSearchAdmin.TabIndex = 1;
-            this.btnSearchAdmin.Text = "search";
-            this.btnSearchAdmin.UseVisualStyleBackColor = true;
+            this.SearchBtnAdmin.Location = new System.Drawing.Point(14, 49);
+            this.SearchBtnAdmin.Name = "SearchBtnAdmin";
+            this.SearchBtnAdmin.Size = new System.Drawing.Size(173, 23);
+            this.SearchBtnAdmin.TabIndex = 1;
+            this.SearchBtnAdmin.Text = "search";
+            this.SearchBtnAdmin.UseVisualStyleBackColor = true;
+            this.SearchBtnAdmin.Click += new System.EventHandler(this.SearchBtnAdmin_Click);
             // 
             // dataGridView3
             // 
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView3.Location = new System.Drawing.Point(211, 3);
             this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.Size = new System.Drawing.Size(341, 342);
+            this.dataGridView3.Size = new System.Drawing.Size(341, 129);
             this.dataGridView3.TabIndex = 0;
             // 
             // tabPage1
@@ -286,6 +294,7 @@
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
             this.toolStripMenuItem1.Text = "حذف";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // limitingToolStripMenuItem
             // 
@@ -293,6 +302,28 @@
             this.limitingToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.limitingToolStripMenuItem.Text = "limiting";
             this.limitingToolStripMenuItem.Click += new System.EventHandler(this.limitingToolStripMenuItem_Click);
+            // 
+            // Strip3
+            // 
+            this.Strip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.Strip3.Name = "Strip1";
+            this.Strip3.Size = new System.Drawing.Size(106, 26);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "جزیات";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // dataGridView4
+            // 
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Location = new System.Drawing.Point(0, 152);
+            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridView4.Size = new System.Drawing.Size(552, 196);
+            this.dataGridView4.TabIndex = 4;
             // 
             // MainForm
             // 
@@ -320,6 +351,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.Strip1.ResumeLayout(false);
             this.Strip2.ResumeLayout(false);
+            this.Strip3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -347,7 +380,10 @@
         private System.Windows.Forms.ToolStripMenuItem limitingToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnReport;
-        private System.Windows.Forms.Button btnSearchAdmin;
+        private System.Windows.Forms.Button SearchBtnAdmin;
+        private System.Windows.Forms.DataGridView dataGridView4;
+        private System.Windows.Forms.ContextMenuStrip Strip3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }
 

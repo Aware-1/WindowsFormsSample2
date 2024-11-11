@@ -79,7 +79,7 @@ namespace Date.Repositories
             return users;
         }
 
-        public Admin GetAdminDetails(int adminId)
+        public Admin GetAdmin(int adminId)
         {
             Admin admin = null;
             string query = @" SELECT Id, UserName, IsLimit, Active FROM Admin WHERE Id = @AdminId";
@@ -102,6 +102,18 @@ namespace Date.Repositories
             }
             return admin;
         }
+
+        public void DeleteAdmin(int adminId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE Admin SET Active = 1 WHERE Id = @AdminId";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@AdminId", adminId);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
         public void UpdateAdmin(int adminId, string userName, bool isLimit, bool active)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -110,7 +122,7 @@ namespace Date.Repositories
                 if (adminId == 0)
                 { query = @" INSERT INTO Admin (UserName, IsLimit, Active) 
                     VALUES (@UserName, @IsLimit, @Active)"; }
-                else 
+                else
                 { query = @" UPDATE Admin SET UserName = @UserName, IsLimit = @IsLimit, Active = @Active
                     WHERE Id = @AdminId"; }
 
@@ -119,10 +131,73 @@ namespace Date.Repositories
                 command.Parameters.AddWithValue("@IsLimit", isLimit ? 1 : 0);
                 command.Parameters.AddWithValue("@Active", active ? 1 : 0);
                 if (adminId != 0)
-                {  command.Parameters.AddWithValue("@AdminId", adminId); }
+                { command.Parameters.AddWithValue("@AdminId", adminId); }
                 connection.Open();
                 command.ExecuteNonQuery();
             }
+        }
+
+        public Admin GetAdmin(string userName, string password)
+        {
+            Admin admin = null;
+            string query = @" SELECT Id, UserName, IsLimit, Active FROM Admin WHERE UserName = @UserName AND Password = @Password AND Active = 0";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@UserName", userName);
+                command.Parameters.AddWithValue("@Password", password);
+                connection.Open(); SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    admin = new Admin
+                    {
+                        Id = (int)reader["Id"],
+                        UserName = reader["UserName"].ToString(),
+                        IsLimit = (bool)reader["IsLimit"],
+                        Active = (bool)reader["Active"]
+                    };
+                }
+                reader.Close();
+            }
+            return admin;
+        }
+
+        public List<Admin> GetAdmins(string searchText = null)
+        {
+            _loggerConfig.LogWarning("GetUsers:", "");
+
+            List<Admin> admins = new List<Admin>();
+
+            string query = @" SELECT Id, UserName, IsLimit 
+            FROM Admin
+            WHERE Active = 0 " +
+            (string.IsNullOrEmpty(searchText) ? "" : $"AND UserName LIKE N'%{searchText}%' ");
+
+            try
+            {
+                if (connection.State != System.Data.ConnectionState.Open)
+                    connection.Open();
+
+            }
+            catch (Exception ex)
+            {
+                _loggerConfig.LogError($"connection faliled: {ex.Message}");
+
+            }
+
+            SqlCommand command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                admins.Add(new Admin
+                {
+                    Id = (int)reader["Id"],
+                    UserName = reader["UserName"].ToString(),
+                    IsLimit = (bool)reader["IsLimit"]
+                });
+            }
+            reader.Close();
+            return admins;
         }
     }
 }

@@ -11,9 +11,11 @@ namespace Doamin.Interfaces
     {
         bool ValidateUser(string userName, string password);
         List<Admin> GetUsers();
-
-        Admin GetAdminDetails(int adminId);
-
+        void DeleteAdmin(int adminId);
+        Admin GetAdmin(int adminId);
+        Admin GetAdmin(string userName, string password);
         void UpdateAdmin(int adminId, string userName, bool isLimit, bool active);
+         List<Admin> GetAdmins(string searchText = null);
+       
     }
 }

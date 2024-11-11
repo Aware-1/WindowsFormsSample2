@@ -58,14 +58,14 @@
             this.PassTxtBox.Location = new System.Drawing.Point(25, 66);
             this.PassTxtBox.Name = "PassTxtBox";
             this.PassTxtBox.Size = new System.Drawing.Size(144, 20);
-            this.PassTxtBox.TabIndex = 2;
+            this.PassTxtBox.TabIndex = 3;
             // 
             // UserTxtBox
             // 
             this.UserTxtBox.Location = new System.Drawing.Point(25, 31);
             this.UserTxtBox.Name = "UserTxtBox";
             this.UserTxtBox.Size = new System.Drawing.Size(144, 20);
-            this.UserTxtBox.TabIndex = 3;
+            this.UserTxtBox.TabIndex = 2;
             // 
             // LoginBtn
             // 
