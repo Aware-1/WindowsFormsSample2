@@ -14,6 +14,9 @@ using PdfSharp.Pdf;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Date.Service;
+using OfficeOpenXml;
+using System.IO;
+using System.Linq;
 
 namespace WindowsFormsApp1
 {
@@ -66,21 +69,21 @@ namespace WindowsFormsApp1
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Hide();
+            //Hide();
 
-            Login login = new Login();
-            if (login.ShowDialog() == DialogResult.OK)
-            {
-                Show();
-                _currentAdmin = (Admin)login.Tag;
-                AccessCurentAdmin();
-            }
-            else
-                Application.Exit();
+            //Login login = new Login();
+            //if (login.ShowDialog() == DialogResult.OK)
+            //{
+            //    Show();
+            //    _currentAdmin = (Admin)login.Tag;
+            //    AccessCurentAdmin();
+            //}
+            //else
+            //    Application.Exit();
             LoadJson();
             LoadAdminGrid();
             LoadGrid();
-            
+
         }
         private void کارکنان_Click(object sender, EventArgs e)
         {
@@ -402,5 +405,96 @@ namespace WindowsFormsApp1
             userDetailsForm.ShowDialog();
 
         }
+        //adimn
+        private void ExelBtn_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Save as Excel File";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ExportDataGridViewToExcel(dataGridView4, saveFileDialog.FileName);
+                }
+            }
+        }
+        private void ExportDataGridViewToExcel(DataGridView dgv, string filePath)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                for (int i = 0; i < dgv.Columns.Count; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = dgv.Columns[i].HeaderText;
+                }
+
+                for (int i = 0; i < dgv.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dgv.Columns.Count; j++)
+                    {
+                        worksheet.Cells[i + 2, j + 1].Value = dgv.Rows[i].Cells[j].Value?.ToString();
+                    }
+                }
+
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                File.WriteAllBytes(filePath, package.GetAsByteArray());
+                MessageBox.Show("افرین ", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ExlBtmEmpl_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Save as Excel File";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ExportDataGridViewToExcel(dataGridView1, saveFileDialog.FileName);
+                }
+            }
+        }
+
+        private void importExlBtn_Click(object sender, EventArgs e)
+        {
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Excel Files|*.xlsx";
+                openFileDialog.Title = "Select an Excel File";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ImportDataFromExcel(openFileDialog.FileName);
+                }
+            }
+        }
+        private void ImportDataFromExcel(string filePath)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                var worksheet = package.Workbook.Worksheets.First();
+                int rowCount = worksheet.Dimension.Rows;
+                int colCount = worksheet.Dimension.Columns;
+                for (int row = 2; row <= rowCount; row++)
+                {
+                    string name = worksheet.Cells[row, 2].Text;
+                    int cityId = int.Parse(worksheet.Cells[row, 3].Text);
+                    //DateTime birthDate = DateTime.Now;
+                    DateTime birthDate = DateTime.Parse(worksheet.Cells[row, 4].Text);
+                    // bool marriage = bool.Parse(worksheet.Cells[row, 5].Text);
+                    bool marriage = worksheet.Cells[row, 5].Text=="1" ? false : true;
+
+                    _userRepository.InsertUser(name, birthDate, marriage, cityId);
+                }
+                MessageBox.Show("افرین", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+
     }
 }

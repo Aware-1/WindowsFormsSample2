@@ -16,5 +16,6 @@ namespace Doamin.Interfaces
         List<User> GetUsers(string searchText = null, string selectedCity = null);
         void AddUserToDatabase(string name, DateTime birthDate, bool marriage, int cityId);
        void DeleteUser(int userId);
+        void InsertUser(string name, DateTime birthDate, bool marriage, int cityId);
     }
 }

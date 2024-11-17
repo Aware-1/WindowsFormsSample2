@@ -162,5 +162,19 @@ namespace Date.Repositories
 
 
         }
+
+        public void InsertUser(string name, DateTime birthDate, bool marriage, int cityId)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Users (Name, BirthDate, marriage, CityId, IsDelete) VALUES (@Name, @BirthDate, @marriage, @CityId,0)", connection);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@BirthDate", birthDate);
+                command.Parameters.AddWithValue("@marriage", marriage);
+                command.Parameters.AddWithValue("@CityId", cityId);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

@@ -36,6 +36,7 @@
             this.AddBtn = new System.Windows.Forms.Button();
             this.کارکنان = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnReport = new System.Windows.Forms.Button();
             this.SearchBtnAdmin = new System.Windows.Forms.Button();
@@ -55,10 +56,13 @@
             this.limitingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Strip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.ExelBtn = new System.Windows.Forms.Button();
+            this.ExlBtmEmpl = new System.Windows.Forms.Button();
+            this.importExlBtn = new System.Windows.Forms.Button();
             SearchBtn1 = new System.Windows.Forms.Button();
             this.کارکنان.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -67,7 +71,6 @@
             this.Strip1.SuspendLayout();
             this.Strip2.SuspendLayout();
             this.Strip3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.SuspendLayout();
             // 
             // SearchBtn1
@@ -137,6 +140,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.ExelBtn);
             this.tabPage3.Controls.Add(this.dataGridView4);
             this.tabPage3.Controls.Add(this.textBox1);
             this.tabPage3.Controls.Add(this.btnReport);
@@ -149,6 +153,14 @@
             this.tabPage3.Text = "مدیران";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // dataGridView4
+            // 
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Location = new System.Drawing.Point(0, 152);
+            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridView4.Size = new System.Drawing.Size(552, 196);
+            this.dataGridView4.TabIndex = 4;
+            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(14, 22);
@@ -158,11 +170,11 @@
             // 
             // btnReport
             // 
-            this.btnReport.Location = new System.Drawing.Point(14, 99);
+            this.btnReport.Location = new System.Drawing.Point(14, 78);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(173, 23);
             this.btnReport.TabIndex = 2;
-            this.btnReport.Text = "گزارش ";
+            this.btnReport.Text = "گزارش pdf";
             this.btnReport.UseVisualStyleBackColor = true;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
@@ -186,6 +198,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.importExlBtn);
+            this.tabPage1.Controls.Add(this.ExlBtmEmpl);
             this.tabPage1.Controls.Add(this.SearchBtn);
             this.tabPage1.Controls.Add(this.cityComboBox);
             this.tabPage1.Controls.Add(this.dataGridView1);
@@ -203,7 +217,7 @@
             // 
             // SearchBtn
             // 
-            this.SearchBtn.Location = new System.Drawing.Point(202, 13);
+            this.SearchBtn.Location = new System.Drawing.Point(276, 13);
             this.SearchBtn.Name = "SearchBtn";
             this.SearchBtn.Size = new System.Drawing.Size(51, 23);
             this.SearchBtn.TabIndex = 9;
@@ -215,9 +229,9 @@
             // 
             this.cityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cityComboBox.FormattingEnabled = true;
-            this.cityComboBox.Location = new System.Drawing.Point(259, 15);
+            this.cityComboBox.Location = new System.Drawing.Point(333, 15);
             this.cityComboBox.Name = "cityComboBox";
-            this.cityComboBox.Size = new System.Drawing.Size(121, 21);
+            this.cityComboBox.Size = new System.Drawing.Size(47, 21);
             this.cityComboBox.TabIndex = 8;
             this.cityComboBox.Click += new System.EventHandler(this.cityComboBox_Click);
             // 
@@ -313,17 +327,39 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(105, 22);
             this.toolStripMenuItem2.Text = "جزیات";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
-            // dataGridView4
+            // ExelBtn
             // 
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(0, 152);
-            this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.Size = new System.Drawing.Size(552, 196);
-            this.dataGridView4.TabIndex = 4;
+            this.ExelBtn.Location = new System.Drawing.Point(14, 107);
+            this.ExelBtn.Name = "ExelBtn";
+            this.ExelBtn.Size = new System.Drawing.Size(173, 23);
+            this.ExelBtn.TabIndex = 5;
+            this.ExelBtn.Text = "گزارش excel";
+            this.ExelBtn.UseVisualStyleBackColor = true;
+            this.ExelBtn.Click += new System.EventHandler(this.ExelBtn_Click);
+            // 
+            // ExlBtmEmpl
+            // 
+            this.ExlBtmEmpl.Location = new System.Drawing.Point(96, 13);
+            this.ExlBtmEmpl.Name = "ExlBtmEmpl";
+            this.ExlBtmEmpl.Size = new System.Drawing.Size(74, 23);
+            this.ExlBtmEmpl.TabIndex = 10;
+            this.ExlBtmEmpl.Text = "گزارش excel";
+            this.ExlBtmEmpl.UseVisualStyleBackColor = true;
+            this.ExlBtmEmpl.Click += new System.EventHandler(this.ExlBtmEmpl_Click);
+            // 
+            // importExlBtn
+            // 
+            this.importExlBtn.Location = new System.Drawing.Point(185, 14);
+            this.importExlBtn.Name = "importExlBtn";
+            this.importExlBtn.Size = new System.Drawing.Size(74, 23);
+            this.importExlBtn.TabIndex = 11;
+            this.importExlBtn.Text = "وارد excel";
+            this.importExlBtn.UseVisualStyleBackColor = true;
+            this.importExlBtn.Click += new System.EventHandler(this.importExlBtn_Click);
             // 
             // MainForm
             // 
@@ -342,6 +378,7 @@
             this.کارکنان.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -352,7 +389,6 @@
             this.Strip1.ResumeLayout(false);
             this.Strip2.ResumeLayout(false);
             this.Strip3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -384,6 +420,9 @@
         private System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.ContextMenuStrip Strip3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.Button ExelBtn;
+        private System.Windows.Forms.Button ExlBtmEmpl;
+        private System.Windows.Forms.Button importExlBtn;
     }
 }
 
