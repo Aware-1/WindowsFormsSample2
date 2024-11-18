@@ -17,6 +17,7 @@ using Date.Service;
 using OfficeOpenXml;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace WindowsFormsApp1
 {
@@ -28,6 +29,12 @@ namespace WindowsFormsApp1
         private readonly IAdminRepository _adminRepository;
         LoggerConfig _loggerConfig;
         private Admin _currentAdmin;
+
+
+        private static readonly object _lockObj = new object();
+        private static Semaphore _semaphore = new Semaphore(1, 1);
+        private static Mutex _mutex = new Mutex();
+
 
         public MainForm()
         {
@@ -259,9 +266,28 @@ namespace WindowsFormsApp1
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
+            //_semaphore.WaitOne();
+            // _mutex.WaitOne();
+
+
+
             AddUser addUser = new AddUser(0);
             addUser.ShowDialog();
-            SearchBtn_Click_1(null, null);
+
+            try
+            {
+       
+                lock (_lockObj)
+                {
+   
+                    SearchBtn_Click_1(null, null);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error in Main thread: {ex.Message}");
+            }
         }
         //load
         private void LoadGrid()
@@ -486,7 +512,7 @@ namespace WindowsFormsApp1
                     //DateTime birthDate = DateTime.Now;
                     DateTime birthDate = DateTime.Parse(worksheet.Cells[row, 4].Text);
                     // bool marriage = bool.Parse(worksheet.Cells[row, 5].Text);
-                    bool marriage = worksheet.Cells[row, 5].Text=="1" ? false : true;
+                    bool marriage = worksheet.Cells[row, 5].Text == "1" ? false : true;
 
                     _userRepository.InsertUser(name, birthDate, marriage, cityId);
                 }
