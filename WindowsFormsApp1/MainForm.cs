@@ -18,6 +18,7 @@ using OfficeOpenXml;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Drawing;
 
 namespace WindowsFormsApp1
 {
@@ -39,12 +40,12 @@ namespace WindowsFormsApp1
         public MainForm()
         {
             InitializeComponent();
-            _loggerConfig = new LoggerConfig();
             _userRepository = new UserRepository();
+            _loggerConfig = new LoggerConfig();
             _adminRepository = new AdminRepository();
             _cityRepository = new CityRepository();
             _userService = new UserService();
-
+            ApplyPersianCulture(this.Controls);
 
             string ipAddress = GetLocalIPAddress();
             string computerName = Environment.MachineName;
@@ -259,8 +260,11 @@ namespace WindowsFormsApp1
 
 
 
-
-
+        private string ConvertToPersianNumbers(string input) 
+        { 
+            return input.Replace("0", "۰").Replace("1", "۱").Replace("2", "۲")
+                .Replace("3", "۳").Replace("4", "۴").Replace("5", "۵")
+                .Replace("6", "۶").Replace("7", "۷").Replace("8", "۸").Replace("9", "۹"); }
 
         #region employ
 
@@ -304,8 +308,10 @@ namespace WindowsFormsApp1
             var users = _userRepository.GetUsers();
             foreach (var user in users)
             {
+                var idFarsi = ConvertToPersianNumbers(user.Id.ToString());
+                var DateFarsi = ConvertToPersianNumbers(user.BirthDate.ToString("yyyy-MM-dd"));
                 var marriageStatus = user.marriage ? "متاهل" : "مجرد";
-                dataGridView1.Rows.Add(user.Id, user.Name, user.City.Name, user.BirthDate.ToString("yyyy-MM-dd"), marriageStatus);
+                dataGridView1.Rows.Add(idFarsi, user.Name, user.City.Name, DateFarsi, marriageStatus);
             }
 
             dataGridView1.ContextMenuStrip = Strip1;
@@ -521,6 +527,33 @@ namespace WindowsFormsApp1
         }
 
 
+
+       
+
+            private void ApplyPersianCulture(Control.ControlCollection controls)
+            {
+                foreach (Control control in controls)
+                {
+                    if (control is TextBox textBox)
+                    {
+                        textBox.Font = new Font("Tahoma", 12, FontStyle.Regular);
+                        textBox.RightToLeft = RightToLeft.Yes;
+                    }
+                    else if (control is Label label)
+                    {
+                        label.Font = new Font("Tahoma", 12, FontStyle.Regular);
+                        label.RightToLeft = RightToLeft.Yes;
+                    }
+                    // تنظیمات مشابه را برای سایر کنترل‌های متنی اعمال کنید
+
+                    // بازگشتی برای کنترل‌های داخلی
+                    if (control.HasChildren)
+                    {
+                        ApplyPersianCulture(control.Controls);
+                    }
+                }
+            }
+        
 
     }
 }
